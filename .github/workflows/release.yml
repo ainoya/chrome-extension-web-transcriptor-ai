@@ -28,6 +28,8 @@ jobs:
           NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. '{if (NF==1) {$1+=1} else {$NF+=1}; OFS="."; print $0}' | sed 's/ /./g')
           jq --arg new_version $NEW_VERSION '.version = $new_version' public/manifest.json > public/manifest.json.tmp
           mv public/manifest.json.tmp public/manifest.json
+      - name: npm install
+        run: npm install
       - name: biome check fix
         run: npm run check -- --fix
       - uses: Songmu/tagpr@v1
