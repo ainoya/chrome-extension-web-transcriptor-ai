@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.0.13](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.12...v0.0.13) - 2024-11-11
+- Update dependency typescript to v5.6.3 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/26
+- Update dependency postcss to v8.4.49 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/28
+- Configure bot user for GitHub Actions releases by @ainoya in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/29
+
 ## [v0.0.12](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.11...v0.0.12) - 2024-11-11
 - Update dependency tailwind-merge to v2.5.4 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/22
 - Update dependency tailwindcss to v3.4.14 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/8
