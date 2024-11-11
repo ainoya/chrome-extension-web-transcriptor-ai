@@ -16,6 +16,9 @@
 	"json": {
 		"parser": {
 			"allowComments": true
+		},
+		"formatter": {
+			"enabled": true
 		}
 	},
 	"vcs": {
