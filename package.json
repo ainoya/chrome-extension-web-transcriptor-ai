@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "check": "biome check .",
+    "check": "biome check . --config-path=./biome.json",
     "preview": "vite preview"
   },
   "dependencies": {
