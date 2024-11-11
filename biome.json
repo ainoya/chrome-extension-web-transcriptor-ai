@@ -1,0 +1,5 @@
+{
+	"linter": {
+		"ignore": ["./src/utils/BlobFix.ts"]
+	}
+}
