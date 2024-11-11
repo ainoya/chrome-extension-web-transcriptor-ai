@@ -13,6 +13,11 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: 1053852
+          private-key: ${{ secrets.AINOYA_BOT_PRIVATE_KEY }}
       - name: increment chrome extnsion manifest.json version
         run: |
           CURRENT_VERSION=$(jq -r '.version' public/manifest.json)
@@ -22,7 +27,7 @@ jobs:
       - uses: Songmu/tagpr@v1
         id: tagpr
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
   # run job to upload artifact if git tagged
   upload:
     runs-on: ubuntu-latest
