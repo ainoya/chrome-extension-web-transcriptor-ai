@@ -1,36 +1,36 @@
 {
-	"manifest_version": 3,
-	"name": "AI Transcriptior",
-	"version": "0.9",
-	"description": "Transcribe audio to text using AI",
-	"permissions": [
-		"activeTab",
-		"tabCapture",
-		"tabs",
-		"scripting",
-		"sidePanel",
-		"offscreen",
-		"storage",
-		"unlimitedStorage",
-		"clipboardWrite"
-	],
-	"action": {
-		"default_title": "AI Transcriptior"
-	},
-	"side_panel": {
-		"default_path": "sidepanel.html"
-	},
-	"background": {
-		"service_worker": "assets/background.js",
-		"type": "module"
-	},
-	"host_permissions": ["<all_urls>"],
-	"icons": {
-		"16": "icons/icon16.png",
-		"48": "icons/icon48.png",
-		"128": "icons/icon128.png"
-	},
-	"content_security_policy": {
-		"extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
-	}
+  "manifest_version": 3,
+  "name": "AI Transcriptior",
+  "version": "0.9",
+  "description": "Transcribe audio to text using AI",
+  "permissions": [
+    "activeTab",
+    "tabCapture",
+    "tabs",
+    "scripting",
+    "sidePanel",
+    "offscreen",
+    "storage",
+    "unlimitedStorage",
+    "clipboardWrite"
+  ],
+  "action": {
+    "default_title": "AI Transcriptior"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "background": {
+    "service_worker": "assets/background.js",
+    "type": "module"
+  },
+  "host_permissions": ["<all_urls>"],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  }
 }
