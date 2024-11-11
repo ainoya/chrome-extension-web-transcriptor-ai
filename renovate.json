@@ -1,4 +1,17 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["config:recommended"],
+	"devDependencies": {
+		"group": true
+	},
+	"packageRules": [
+		{
+			"updateTypes": ["minor", "patch", "pin"],
+			"automerge": true
+		},
+		{
+			"matchPackageNames": ["node"],
+			"extends": ["schedule:monthly"]
+		}
+	]
 }
