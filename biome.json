@@ -4,11 +4,11 @@
     "enabled": false
   },
   "formatter": {
-    "ignore": ["./dist"]
+    "ignore": ["./dist", "./package-lock.json"]
   },
   "linter": {
     "enabled": true,
-    "ignore": ["./dist"],
+    "ignore": ["./dist", "./package-lock.json"],
     "rules": {
       "recommended": true
     }
