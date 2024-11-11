@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "AI Transcriptior",
-  "version": "0.9",
+  "version": "0.10",
   "description": "Transcribe audio to text using AI",
   "permissions": [
     "activeTab",
@@ -24,7 +24,9 @@
     "service_worker": "assets/background.js",
     "type": "module"
   },
-  "host_permissions": ["<all_urls>"],
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
