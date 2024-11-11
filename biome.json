@@ -8,7 +8,7 @@
 	},
 	"linter": {
 		"enabled": true,
-		"ignore": ["./src/utils/BlobFix.ts", "./dist"],
+		"ignore": ["./dist"],
 		"rules": {
 			"recommended": true
 		}
