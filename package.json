@@ -22,7 +22,7 @@
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "jotai": "^2.10.2",
-    "lucide-react": "^0.456.0",
+    "lucide-react": "^0.460.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwind-merge": "^2.3.0",
@@ -32,7 +32,7 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@types/audioworklet": "^0.0.64",
-    "@types/chrome": "^0.0.281",
+    "@types/chrome": "^0.0.283",
     "@types/dom-chromium-ai": "^0.0.2",
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",
