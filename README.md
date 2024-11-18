@@ -4,6 +4,7 @@ A Chrome extension that transcribes audio within a browser tab using [transforme
 
 - **Privacy-Focused**: Only downloads the transcription model; does not send audio files externally for transcription.
 - **Offline Processing**: All transcription is performed locally within the browser.
+- **Multi-Language Support**: Supports multiple languages for transcription.
 
 ## Demo
 
