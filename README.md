@@ -6,6 +6,17 @@ A Chrome extension that transcribes audio within a browser tab using [transforme
 - **Offline Processing**: All transcription is performed locally within the browser.
 - **Multi-Language Support**: Supports multiple languages for transcription.
 
+## Install
+
+1. You can use the pre-built `dist.zip` from the releases:
+    - Download it from [here](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/releases/latest).
+
+2. Load the extension into Chrome:
+
+    - Open Chrome and navigate to `chrome://extensions/`.
+    - Enable "Developer mode" in the top right corner.
+    - Click "Load unpacked" and select the `dist` directory from this repository or the extracted `dist.zip`.
+
 ## Demo
 
 ![Demo](./images/chrome-extension-web-transcriptor-ai.gif)

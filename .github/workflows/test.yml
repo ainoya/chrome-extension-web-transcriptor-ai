@@ -3,7 +3,7 @@
 name: Test
 
 on:
-  pull_request_target:
+  pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
@@ -17,6 +17,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm install
