@@ -11,7 +11,10 @@ import {
   transcriptionSettingsAtom,
 } from "./jotai/settingAtom";
 import { useAtom } from "jotai";
-import { modelLoadingProgressAtom } from "./jotai/modelStatusAtom";
+import {
+  modelLoadingProgressAtom,
+  modelStatusAtom,
+} from "./jotai/modelStatusAtom";
 
 const fetchAiCapabilities = async () => {
   if (!window.ai) {
@@ -38,6 +41,9 @@ const SidePanelApp: React.FC = () => {
   });
   const [transcription, setTranscription] = useState("");
   const [modelStatus, setModelStatus] = useAtom(modelStatusAtom);
+  const [loadingProgress, setLoadingProgress] = useAtom(
+    modelLoadingProgressAtom
+  );
 
   useEffect(() => {
     fetchAiCapabilities().then((capabilities) => {
@@ -48,9 +54,15 @@ const SidePanelApp: React.FC = () => {
       if (message.type === "transcript") {
         console.debug("Received transcript message", message.data.transcripted);
         setTranscription((prev) => `${prev}\n${message.data.transcripted}`);
+      } else if (message.type === "model-status") {
+        console.debug("Received model status", message.data.status);
+        setModelStatus(message.data.status);
+        if (message.data.status === "loading") {
+          setLoadingProgress(message.data.progress);
+        }
       }
     });
-  }, []);
+  }, [setModelStatus, setLoadingProgress]);
 
   const { toast } = useToast();
 
@@ -78,8 +90,6 @@ const SidePanelApp: React.FC = () => {
   const language: TranscriptionLanguage =
     transcriptionSettings.language as TranscriptionLanguage;
 
-  const [loadingProgress] = useAtom(modelLoadingProgressAtom);
-
   return (
     <div className="container">
       <div className="box-border">
@@ -90,11 +100,9 @@ const SidePanelApp: React.FC = () => {
             <Textarea value={transcription} rows={20} readOnly />
           </div>
           {/* model status */}
-          <div>
+          <div className="text-center">
             <h1>Model Status: {modelStatus}</h1>
-            {modelStatus === "loading" && (
-              <p>{loadingProgress * 100}% loaded</p>
-            )}
+            {modelStatus === "loading" && <p>{loadingProgress}% loaded</p>}
           </div>
         </div>
         <div className="flex flex-col m-1 p-1">
