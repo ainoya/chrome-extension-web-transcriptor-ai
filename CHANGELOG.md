@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.0.14](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.13...v0.0.14) - 2024-11-18
+- Update dependency @types/chrome to ^0.0.281 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/30
+- Update dependency tailwindcss to v3.4.15 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/32
+- Update dependency lucide-react to ^0.459.0 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/33
+- Update dependency @types/chrome to ^0.0.283 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/34
+- Update dependency lucide-react to ^0.460.0 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/35
+- Add multilingual support for transcription by @ainoya in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/36
+- Add installation guide to README.md by @ainoya in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/38
+
 ## [v0.0.13](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.12...v0.0.13) - 2024-11-11
 - Update dependency typescript to v5.6.3 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/26
 - Update dependency postcss to v8.4.49 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/28
