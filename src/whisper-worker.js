@@ -1,11 +1,11 @@
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-  AutoProcessor,
-  AutoTokenizer,
-  TextStreamer,
-  WhisperForConditionalGeneration,
-  full,
+	AutoProcessor,
+	AutoTokenizer,
+	TextStreamer,
+	WhisperForConditionalGeneration,
+	full,
 } from "@huggingface/transformers";
 
 const MAX_NEW_TOKENS = 64;
@@ -16,139 +16,139 @@ const MAX_NEW_TOKENS = 64;
 
 // biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 class AutomaticSpeechRecognitionPipeline {
-  static model_id = null;
-  static tokenizer = null;
-  static processor = null;
-  static model = null;
+	static model_id = null;
+	static tokenizer = null;
+	static processor = null;
+	static model = null;
 
-  static async getInstance(progress_callback = null) {
-    // biome-ignore lint/complexity/noThisInStatic: <explanation>
-    this.model_id = "onnx-community/whisper-large-v3-turbo";
-    // this.model_id = "onnx-community/whisper-base";
+	static async getInstance(progress_callback = null) {
+		// biome-ignore lint/complexity/noThisInStatic: <explanation>
+		this.model_id = "onnx-community/whisper-large-v3-turbo";
+		// this.model_id = "onnx-community/whisper-base";
 
-    AutomaticSpeechRecognitionPipeline;
-    AutomaticSpeechRecognitionPipeline.tokenizer ??=
-      // biome-ignore lint/complexity/noThisInStatic: <explanation>
-      AutoTokenizer.from_pretrained(this.model_id, {
-        progress_callback,
-      });
-    // biome-ignore lint/complexity/noThisInStatic: <explanation>
-    this.processor ??= AutoProcessor.from_pretrained(this.model_id, {
-      progress_callback,
-    });
+		AutomaticSpeechRecognitionPipeline;
+		AutomaticSpeechRecognitionPipeline.tokenizer ??=
+			// biome-ignore lint/complexity/noThisInStatic: <explanation>
+			AutoTokenizer.from_pretrained(this.model_id, {
+				progress_callback,
+			});
+		// biome-ignore lint/complexity/noThisInStatic: <explanation>
+		this.processor ??= AutoProcessor.from_pretrained(this.model_id, {
+			progress_callback,
+		});
 
-    // biome-ignore lint/complexity/noThisInStatic: <explanation>
-    this.model ??= WhisperForConditionalGeneration.from_pretrained(
-      // biome-ignore lint/complexity/noThisInStatic: <explanation>
-      this.model_id,
-      {
-        dtype: {
-          encoder_model: "fp16", // 'fp16' works too
-          decoder_model_merged: "q4", // or 'fp32' ('fp16' is broken)
-        },
-        device: "webgpu",
-        progress_callback,
-      }
-    );
-    // biome-ignore lint/complexity/noThisInStatic: <explanation>
-    return Promise.all([this.tokenizer, this.processor, this.model]);
-  }
+		// biome-ignore lint/complexity/noThisInStatic: <explanation>
+		this.model ??= WhisperForConditionalGeneration.from_pretrained(
+			// biome-ignore lint/complexity/noThisInStatic: <explanation>
+			this.model_id,
+			{
+				dtype: {
+					encoder_model: "fp16", // 'fp16' works too
+					decoder_model_merged: "q4", // or 'fp32' ('fp16' is broken)
+				},
+				device: "webgpu",
+				progress_callback,
+			},
+		);
+		// biome-ignore lint/complexity/noThisInStatic: <explanation>
+		return Promise.all([this.tokenizer, this.processor, this.model]);
+	}
 }
 
 let processing = false;
 export async function processWhisperMessage(audio, language) {
-  if (processing) return;
-  processing = true;
-  if (!audio) {
-    console.debug("No audio data provided.");
-    processing = false;
-    return;
-  }
-  console.debug("processWhisperMessage", audio, language);
-  // const audioF32 = new Float32Array(audio);
-  // console.debug("audio", audioF32);
+	if (processing) return;
+	processing = true;
+	if (!audio) {
+		console.debug("No audio data provided.");
+		processing = false;
+		return;
+	}
+	console.debug("processWhisperMessage", audio, language);
+	// const audioF32 = new Float32Array(audio);
+	// console.debug("audio", audioF32);
 
-  // Tell the main thread we are starting
-  // self.postMessage({ status: "start" });
+	// Tell the main thread we are starting
+	// self.postMessage({ status: "start" });
 
-  // Retrieve the text-generation pipeline.
-  const [tokenizer, processor, model] =
-    await AutomaticSpeechRecognitionPipeline.getInstance((data) => {
-      // We also add a progress callback to the pipeline so that we can
-      // track model loading.
-      if (
-        data.status === "progress" &&
-        Math.ceil(data.progress * 100) % 10 === 0
-      ) {
-        console.debug(`Model loading: ${data.progress}%`);
-        chrome.runtime.sendMessage({ type: "whisper-progress", data });
-      }
-      // self.postMessage(data);
-    });
+	// Retrieve the text-generation pipeline.
+	const [tokenizer, processor, model] =
+		await AutomaticSpeechRecognitionPipeline.getInstance((data) => {
+			// We also add a progress callback to the pipeline so that we can
+			// track model loading.
+			if (
+				data.status === "progress" &&
+				Math.ceil(data.progress * 100) % 10 === 0
+			) {
+				console.debug(`Model loading: ${data.progress}%`);
+				chrome.runtime.sendMessage({ type: "whisper-progress", data });
+			}
+			// self.postMessage(data);
+		});
 
-  let startTime;
-  let numTokens = 0;
-  const callback_function = (output) => {
-    startTime ??= performance.now();
+	let startTime;
+	let numTokens = 0;
+	const callback_function = (output) => {
+		startTime ??= performance.now();
 
-    let tps;
-    if (numTokens++ > 0) {
-      tps = (numTokens / (performance.now() - startTime)) * 1000;
-    }
-    console.debug("callback_func/output", output);
-    // self.postMessage({
-    //   status: "update",
-    //   output,
-    //   tps,
-    //   numTokens,
-    // });
-  };
+		let tps;
+		if (numTokens++ > 0) {
+			tps = (numTokens / (performance.now() - startTime)) * 1000;
+		}
+		console.debug("callback_func/output", output);
+		// self.postMessage({
+		//   status: "update",
+		//   output,
+		//   tps,
+		//   numTokens,
+		// });
+	};
 
-  const streamer = new TextStreamer(tokenizer, {
-    skip_prompt: true,
-    skip_special_tokens: true,
-    callback_function,
-  });
+	const streamer = new TextStreamer(tokenizer, {
+		skip_prompt: true,
+		skip_special_tokens: true,
+		callback_function,
+	});
 
-  const inputs = await processor(audio);
+	const inputs = await processor(audio);
 
-  const outputs = await model.generate({
-    ...inputs,
-    max_new_tokens: MAX_NEW_TOKENS,
-    language,
-    streamer,
-  });
+	const outputs = await model.generate({
+		...inputs,
+		max_new_tokens: MAX_NEW_TOKENS,
+		language,
+		streamer,
+	});
 
-  const outputText = tokenizer.batch_decode(outputs, {
-    skip_special_tokens: true,
-  });
+	const outputText = tokenizer.batch_decode(outputs, {
+		skip_special_tokens: true,
+	});
 
-  // Send the output back to the main thread
-  console.debug("outputText", outputText);
-  processing = false;
-  return outputText;
+	// Send the output back to the main thread
+	console.debug("outputText", outputText);
+	processing = false;
+	return outputText;
 }
 
 export async function initializeWhisperWorker(progress_callback) {
-  // Load the pipeline and save it for future use.
-  const [tokenizer, processor, model] =
-    await AutomaticSpeechRecognitionPipeline.getInstance((data) => {
-      // We also add a progress callback to the pipeline so that we can
-      // track model loading.
-      console.debug("data", data);
-      if (
-        data.status === "progress" &&
-        Math.ceil(data.progress * 100) % 10 === 0
-      ) {
-        console.debug(`Model loading: ${data.progress}%`);
-        progress_callback(data.progress);
-      }
-      // self.postMessage(data);
-    });
+	// Load the pipeline and save it for future use.
+	const [tokenizer, processor, model] =
+		await AutomaticSpeechRecognitionPipeline.getInstance((data) => {
+			// We also add a progress callback to the pipeline so that we can
+			// track model loading.
+			console.debug("data", data);
+			if (
+				data.status === "progress" &&
+				Math.ceil(data.progress * 100) % 10 === 0
+			) {
+				console.debug(`Model loading: ${data.progress}%`);
+				progress_callback(data.progress);
+			}
+			// self.postMessage(data);
+		});
 
-  // Run model with dummy input to compile shaders
-  await model.generate({
-    input_features: full([1, 128, 3000], 0.0),
-    max_new_tokens: 1,
-  });
+	// Run model with dummy input to compile shaders
+	await model.generate({
+		input_features: full([1, 128, 3000], 0.0),
+		max_new_tokens: 1,
+	});
 }
