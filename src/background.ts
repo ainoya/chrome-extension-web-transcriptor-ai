@@ -1,4 +1,14 @@
-import { processWhisperMessage } from "./whisper-worker.js";
+import { createStore } from "jotai";
+import {
+	initializeWhisperWorker,
+	processWhisperMessage,
+} from "./whisper-worker.js";
+import {
+	modelLoadingProgressAtom,
+	modelStatusAtom,
+} from "./jotai/modelStatusAtom.js";
+
+const store = createStore();
 
 chrome.action.onClicked.addListener(async (tab) => {
 	if (tab.id === undefined) {
@@ -26,6 +36,7 @@ chrome.action.onClicked.addListener(async (tab) => {
 
 	// once the offscreen document is ready, send the stream ID to start recording
 	chrome.runtime.onMessage.addListener(async (message) => {
+		console.debug("Received message", message);
 		if (message.type === "offscreen-ready") {
 			console.debug("Received offscreen-ready message");
 			// Send the stream ID to the offscreen document to start recording.
@@ -48,8 +59,23 @@ chrome.action.onClicked.addListener(async (tab) => {
 				},
 			);
 		}
+		if (message.type === "initialize-transcription-model") {
+			console.debug("Received initialize-transcription-model message");
+			await initializeModelLoading();
+		}
 		if (message.type === "transcription-message") {
 			console.debug("Received transcripton message", message);
+			const modelStatus = store.get(modelStatusAtom);
+			if (modelStatus !== "ready" && modelStatus !== "loading") {
+				console.debug("Model is not ready", modelStatus);
+				await initializeModelLoading();
+
+				return;
+			}
+			if (modelStatus === "loading") {
+				console.debug("Model is loading");
+				return;
+			}
 			const { serializedAudio, language } = message.data;
 			const audio = new Float32Array(JSON.parse(serializedAudio));
 			console.debug("audio, language", audio, language);
@@ -71,10 +97,31 @@ chrome.action.onClicked.addListener(async (tab) => {
 	console.debug("tab url", tab.url);
 });
 
-// chrome.sidePanel
-//   .setPanelBehavior({
-//     openPanelOnActionClick: true,
-//   })
-//   .catch((error) => {
-//     console.error("Failed to set panel behavior:", error);
-//   });
+async function initializeModelLoading() {
+	store.set(modelStatusAtom, "loading");
+	store.set(modelLoadingProgressAtom, 0);
+	chrome.runtime.sendMessage({
+		type: "model-status",
+		data: {
+			status: "loading",
+			progress: 0,
+		},
+	});
+	await initializeWhisperWorker((progress) => {
+		store.set(modelLoadingProgressAtom, progress);
+		chrome.runtime.sendMessage({
+			type: "model-status",
+			data: {
+				status: "loading",
+				progress,
+			},
+		});
+	});
+	store.set(modelStatusAtom, "ready");
+	chrome.runtime.sendMessage({
+		type: "model-status",
+		data: {
+			status: "ready",
+		},
+	});
+}

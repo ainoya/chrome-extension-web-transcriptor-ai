@@ -11,6 +11,10 @@ import {
 	transcriptionSettingsAtom,
 } from "./jotai/settingAtom";
 import { useAtom } from "jotai";
+import {
+	modelLoadingProgressAtom,
+	modelStatusAtom,
+} from "./jotai/modelStatusAtom";
 
 const fetchAiCapabilities = async () => {
 	if (!window.ai) {
@@ -36,6 +40,10 @@ const SidePanelApp: React.FC = () => {
 		available: "no",
 	});
 	const [transcription, setTranscription] = useState("");
+	const [modelStatus, setModelStatus] = useAtom(modelStatusAtom);
+	const [loadingProgress, setLoadingProgress] = useAtom(
+		modelLoadingProgressAtom,
+	);
 
 	useEffect(() => {
 		fetchAiCapabilities().then((capabilities) => {
@@ -46,9 +54,15 @@ const SidePanelApp: React.FC = () => {
 			if (message.type === "transcript") {
 				console.debug("Received transcript message", message.data.transcripted);
 				setTranscription((prev) => `${prev}\n${message.data.transcripted}`);
+			} else if (message.type === "model-status") {
+				console.debug("Received model status", message.data.status);
+				setModelStatus(message.data.status);
+				if (message.data.status === "loading") {
+					setLoadingProgress(message.data.progress);
+				}
 			}
 		});
-	}, []);
+	}, [setModelStatus, setLoadingProgress]);
 
 	const { toast } = useToast();
 
@@ -85,6 +99,11 @@ const SidePanelApp: React.FC = () => {
 					<div className="text-center mt-1">
 						<Textarea value={transcription} rows={20} readOnly />
 					</div>
+					{/* model status */}
+					<div className="text-center">
+						<h1>Model Status: {modelStatus}</h1>
+						{modelStatus === "loading" && <p>{loadingProgress}% loaded</p>}
+					</div>
 				</div>
 				<div className="flex flex-col m-1 p-1">
 					<LanguageSelector
@@ -104,6 +123,20 @@ const SidePanelApp: React.FC = () => {
             Stop Recording
           </Button>
         </div> */}
+				{/* if status is unknown or error, show loading model button */}
+				{/* {(modelStatus === "unknown" || modelStatus === "error") && (
+          <div className="flex flex-col m-1 p-1">
+            <Button
+              onClick={() =>
+                chrome.runtime.sendMessage({
+                  type: "initialize-transcription-model",
+                })
+              }
+            >
+              Load Model
+            </Button>
+          </div>
+        )} */}
 
 				{/* copy to clipboard button */}
 				<div className="flex flex-col m-1 p-1">

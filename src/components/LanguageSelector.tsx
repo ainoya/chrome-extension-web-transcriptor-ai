@@ -14,7 +14,7 @@ export const LanguageSelector: React.FC<{
 	const names = Object.values(LANGUAGES);
 
 	return (
-		<Select.Root onValueChange={handleLanguageChange}>
+		<Select.Root onValueChange={handleLanguageChange} defaultValue={language}>
 			<Select.Trigger className="inline-flex h-[35px] items-center justify-center gap-[5px] rounded px-[15px] text-[13px] leading-none outline-none hover:bg-mauve3 focus:shadow-[0_0_0_2px]">
 				<Select.Value
 					placeholder="Select a language…"

@@ -5,4 +5,7 @@ export declare module "./whisper-worker.js" {
 		language: string,
 		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	): Promise<any>;
+	export declare function initializeWhisperWorker(
+		progressCallbackFunc: (progress: number) => void,
+	): Promise<void>;
 }

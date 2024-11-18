@@ -23,8 +23,8 @@ class AutomaticSpeechRecognitionPipeline {
 
 	static async getInstance(progress_callback = null) {
 		// biome-ignore lint/complexity/noThisInStatic: <explanation>
-		this.model_id = "onnx-community/whisper-base";
-		// this.model_id = "onnx-community/whisper-large-v3-turbo";
+		this.model_id = "onnx-community/whisper-large-v3-turbo";
+		// this.model_id = "onnx-community/whisper-base";
 
 		AutomaticSpeechRecognitionPipeline;
 		AutomaticSpeechRecognitionPipeline.tokenizer ??=
@@ -43,7 +43,7 @@ class AutomaticSpeechRecognitionPipeline {
 			this.model_id,
 			{
 				dtype: {
-					encoder_model: "fp32", // 'fp16' works too
+					encoder_model: "fp16", // 'fp16' works too
 					decoder_model_merged: "q4", // or 'fp32' ('fp16' is broken)
 				},
 				device: "webgpu",
@@ -81,6 +81,7 @@ export async function processWhisperMessage(audio, language) {
 				Math.ceil(data.progress * 100) % 10 === 0
 			) {
 				console.debug(`Model loading: ${data.progress}%`);
+				chrome.runtime.sendMessage({ type: "whisper-progress", data });
 			}
 			// self.postMessage(data);
 		});
@@ -124,58 +125,30 @@ export async function processWhisperMessage(audio, language) {
 
 	// Send the output back to the main thread
 	console.debug("outputText", outputText);
-	// self.postMessage({
-	//   status: "complete",
-	//   output: outputText,
-	// });
 	processing = false;
 	return outputText;
 }
 
-async function load() {
-	// self.postMessage({
-	//   status: "loading",
-	//   data: "Loading model...",
-	// });
-
+export async function initializeWhisperWorker(progress_callback) {
 	// Load the pipeline and save it for future use.
 	const [tokenizer, processor, model] =
 		await AutomaticSpeechRecognitionPipeline.getInstance((data) => {
 			// We also add a progress callback to the pipeline so that we can
 			// track model loading.
+			console.debug("data", data);
 			if (
 				data.status === "progress" &&
 				Math.ceil(data.progress * 100) % 10 === 0
 			) {
 				console.debug(`Model loading: ${data.progress}%`);
+				progress_callback(data.progress);
 			}
 			// self.postMessage(data);
 		});
 
-	// self.postMessage({
-	//   status: "loading",
-	//   data: "Compiling shaders and warming up model...",
-	// });
-
 	// Run model with dummy input to compile shaders
 	await model.generate({
-		input_features: full([1, 80, 3000], 0.0),
+		input_features: full([1, 128, 3000], 0.0),
 		max_new_tokens: 1,
 	});
-	// self.postMessage({ status: "ready" });
 }
-// Listen for messages from the main thread
-// chrome.addEventListener(async (message) => {
-//   const { type, data } = message.data;
-//   if (type !== "transcription-generate") return;
-
-//   switch (data.type) {
-//     case "load":
-//       load();
-//       break;
-
-//     case "generate":
-//       generate(data);
-//       break;
-//   }
-// });
