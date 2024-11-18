@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.0.15](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.14...v0.0.15) - 2024-11-18
+- Use whisper-large-v3-turbo and show model loading progress by @ainoya in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/39
+
 ## [v0.0.14](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.13...v0.0.14) - 2024-11-18
 - Update dependency @types/chrome to ^0.0.281 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/30
 - Update dependency tailwindcss to v3.4.15 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/32
