@@ -17,6 +17,13 @@ A Chrome extension that transcribes audio within a browser tab using [transforme
     - Enable "Developer mode" in the top right corner.
     - Click "Load unpacked" and select the `dist` directory from this repository or the extracted `dist.zip`.
 
+## Usage
+
+1. Right-click the Chrome extension icon to open the side panel.
+2. Left-click the Chrome extension icon to start capturing audio within the tab.
+3. Once the model setup is complete, the transcribed text will be displayed in the transcription area.
+4. You can copy the transcribed text to the clipboard using the copy button.
+
 ## Demo
 
 ![Demo](./images/chrome-extension-web-transcriptor-ai.gif)
