@@ -32,7 +32,7 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@types/audioworklet": "^0.0.64",
-    "@types/chrome": "^0.0.283",
+    "@types/chrome": "^0.0.284",
     "@types/dom-chromium-ai": "^0.0.3",
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",
