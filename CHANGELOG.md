@@ -1,5 +1,24 @@
 # Changelog
 
+## [v0.0.16](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.15...v0.0.16) - 2024-11-26
+- Add usage section to README.md by @ainoya in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/41
+- Update dependency jotai to v2.10.3 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/43
+- Update dependency typescript to v5.7.2 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/44
+- Update dependency @types/node to v20.17.7 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/45
+- Update dependency @types/dom-chromium-ai to ^0.0.3 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/46
+- Update dependency @types/chrome to ^0.0.284 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/47
+- Update dependency tailwind-merge to v2.5.5 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/48
+- Update dependency @types/dom-chromium-ai to ^0.0.4 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/49
+- Update dependency @types/chrome to ^0.0.285 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/50
+- Update dependency @types/node to v20.17.8 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/51
+- Update dependency lucide-react to ^0.461.0 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/53
+- Update dependency @types/chrome to ^0.0.286 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/52
+- Update dependency @types/chrome to ^0.0.287 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/54
+- Update README.md by @ainoya in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/55
+- Update dependency @vitejs/plugin-react-swc to v3.7.2 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/56
+- Update dependency class-variance-authority to v0.7.1 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/57
+- Update dependency vite to v6 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/58
+
 ## [v0.0.15](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.14...v0.0.15) - 2024-11-18
 - Use whisper-large-v3-turbo and show model loading progress by @ainoya in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/39
 
