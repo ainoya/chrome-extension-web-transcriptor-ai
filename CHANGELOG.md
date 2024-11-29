@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.0.17](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.16...v0.0.17) - 2024-11-28
+- Update dependency @huggingface/transformers to v3.1.0 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/59
+- Update dependency vite to v6.0.1 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/62
+- Update dependency lucide-react to ^0.462.0 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/63
+- Update dependency @types/node to v20.17.9 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/64
+
 ## [v0.0.16](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.15...v0.0.16) - 2024-11-26
 - Add usage section to README.md by @ainoya in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/41
 - Update dependency jotai to v2.10.3 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/43
