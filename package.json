@@ -22,7 +22,7 @@
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "jotai": "^2.10.2",
-    "lucide-react": "^0.462.0",
+    "lucide-react": "^0.464.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwind-merge": "^2.3.0",
