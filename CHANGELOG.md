@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.19](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.18...v0.0.19) - 2024-12-12
+- Bump nanoid from 3.3.7 to 3.3.8 in the npm_and_yarn group across 1 directory by @dependabot in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/84
+- Update dependency @types/node to v20.17.10 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/86
+
 ## [v0.0.18](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.17...v0.0.18) - 2024-12-09
 - Update dependency @types/audioworklet to ^0.0.65 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/65
 - Update Node.js to v20.18.1 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/67
