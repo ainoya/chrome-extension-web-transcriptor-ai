@@ -1,5 +1,70 @@
 # Changelog
 
+## [v0.0.19](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.18...v0.0.19) - 2025-01-28
+- Bump nanoid from 3.3.7 to 3.3.8 in the npm_and_yarn group across 1 directory by @dependabot in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/84
+- Update dependency @types/node to v20.17.10 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/86
+- Update radix-ui-primitives monorepo by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/87
+- Update dependency @huggingface/transformers to v3.2.0 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/88
+- Update dependency jotai to v2.10.4 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/89
+- Update radix-ui-primitives monorepo by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/90
+- Update dependency tailwindcss to v3.4.17 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/91
+- Update dependency @types/react to v19.0.2 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/92
+- Update dependency vite to v6.0.4 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/93
+- Update dependency @huggingface/transformers to v3.2.1 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/94
+- Update dependency lucide-react to ^0.469.0 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/95
+- Update dependency vite to v6.0.5 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/96
+- Update dependency jotai to v2.11.0 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/97
+- Update dependency @huggingface/transformers to v3.2.2 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/98
+- Update dependency tailwind-merge to v2.6.0 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/99
+- Update dependency @huggingface/transformers to v3.2.3 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/100
+- Update dependency vite to v6.0.6 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/101
+- Update dependency @huggingface/transformers to v3.2.4 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/102
+- Update dependency @types/node to v20.17.11 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/103
+- Update dependency @types/chrome to ^0.0.288 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/104
+- Update dependency vite to v6.0.7 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/105
+- Update dependency @types/chrome to ^0.0.290 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/107
+- Update dependency @types/node to v20.17.12 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/108
+- Update dependency @types/react to v19.0.3 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/109
+- Update dependency @types/chrome to ^0.0.291 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/110
+- Update dependency @types/react to v19.0.4 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/111
+- Update dependency typescript to v5.7.3 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/112
+- Update dependency @types/chrome to ^0.0.292 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/113
+- Update dependency @types/chrome to ^0.0.293 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/114
+- Update dependency lucide-react to ^0.471.0 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/115
+- Update react monorepo to v19.0.5 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/116
+- Update dependency lucide-react to v0.471.1 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/118
+- Update dependency @types/react to v19.0.6 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/117
+- Update dependency postcss to v8.5.0 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/119
+- Update dependency @types/chrome to ^0.0.294 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/120
+- Update dependency @types/react to v19.0.7 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/121
+- Update dependency postcss to v8.5.1 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/122
+- Update dependency @types/chrome to ^0.0.296 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/123
+- Update dependency @types/node to v20.17.13 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/124
+- Update dependency @huggingface/transformers to v3.3.0 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/125
+- Update dependency @huggingface/transformers to v3.3.1 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/126
+- Update dependency @types/node to v20.17.14 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/127
+- Update dependency @types/chrome to ^0.0.297 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/128
+- Update dependency @types/audioworklet to ^0.0.66 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/129
+- Update dependency lucide-react to ^0.473.0 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/130
+- Update dependency vite to v6.0.8 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/131
+- Update dependency vite to v6.0.9 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/132
+- Update dependency jotai to v2.11.1 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/133
+- Update dependency vite to v6.0.10 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/134
+- Update dependency @types/chrome to ^0.0.298 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/135
+- Update dependency @types/chrome to ^0.0.299 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/136
+- Update dependency vite to v6.0.11 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/137
+- Update dependency @huggingface/transformers to v3.3.2 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/138
+- Update radix-ui-primitives monorepo by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/139
+- Update dependency @types/node to v20.17.15 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/141
+- Update dependency @types/node to v20.17.16 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/142
+- Update dependency @types/react to v19.0.8 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/143
+- Update dependency lucide-react to ^0.474.0 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/144
+- Update Node.js to v22 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/68
+- Update dependency @types/node to v22.10.10 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/145
+- Update dependency @types/audioworklet to ^0.0.67 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/146
+- Update dependency @types/audioworklet to ^0.0.68 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/147
+- Update dependency @types/node to v22.12.0 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/148
+
 ## [v0.0.18](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.17...v0.0.18) - 2024-12-09
 - Update dependency @types/audioworklet to ^0.0.65 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/65
 - Update Node.js to v20.18.1 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/67
