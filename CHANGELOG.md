@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.0.20](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.19...v0.0.20) - 2025-02-01
+- Update dependency @types/chrome to ^0.0.300 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/149
+- Update dependency jotai to v2.11.2 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/153
+- Update dependency @types/node to v22.13.0 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/154
+- Update dependency jotai to v2.11.3 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/155
+
 ## [v0.0.19](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.18...v0.0.19) - 2025-01-28
 - Bump nanoid from 3.3.7 to 3.3.8 in the npm_and_yarn group across 1 directory by @dependabot in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/84
 - Update dependency @types/node to v20.17.10 by @renovate in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/86
