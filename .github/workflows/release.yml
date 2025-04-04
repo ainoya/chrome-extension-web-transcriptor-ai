@@ -18,7 +18,7 @@ jobs:
         with:
           node-version-file: .node-version
           cache: 'npm'
-      - uses: actions/create-github-app-token@v1
+      - uses: actions/create-github-app-token@v2
         id: app-token
         with:
           app-id: 1053852
