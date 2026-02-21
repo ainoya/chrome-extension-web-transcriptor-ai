@@ -30,7 +30,7 @@
     "turndown": "^7.2.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.0.0",
     "@types/audioworklet": "^0.0.95",
     "@types/chrome": "^0.1.0",
     "@types/dom-chromium-ai": "^0.0.6",
