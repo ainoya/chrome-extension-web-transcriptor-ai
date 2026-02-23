@@ -117,7 +117,9 @@ export type TranscriptionTask = "transcribe" | "translate";
 export function getTaskFromLanguage(
 	language: TranscriptionLanguage,
 ): TranscriptionTask {
-	const base = language.includes("/") ? language.split("/")[0].trim() : language;
+	const base = language.includes("/")
+		? language.split("/")[0].trim()
+		: language;
 	return base === "english" ? "transcribe" : "translate";
 }
 
