@@ -21,18 +21,21 @@ const MAX_SAMPLES = WHISPER_SAMPLING_RATE * MAX_AUDIO_LENGTH;
 
 export const Offscreen: React.FC = () => {
 	const [transcriptionSettings] = useAtom(transcriptionSettingsAtom);
-	const language = transcriptionSettings.language;
 	const recorderRef = React.useRef<MediaRecorder | null>(null);
 	const [recording, setRecording] = React.useState(false);
 	const audioContextRef = React.useRef<AudioContext | null>(null);
 	const [chunks, setChunks] = React.useState<Blob[]>([]);
 	const modelLoadedRef = React.useRef(false);
+	const micStreamRef = React.useRef<MediaStream | null>(null);
+	const mixContextRef = React.useRef<AudioContext | null>(null);
 
-	const setupMediaRecorder = (streamId: string) => {
+	const setupMediaRecorder = async (streamId: string) => {
 		if (recorderRef.current) return; // Already set
 
-		navigator.mediaDevices
-			.getUserMedia({
+		const includeMicrophone = transcriptionSettings.includeMicrophone ?? false;
+
+		try {
+			const tabStream = await navigator.mediaDevices.getUserMedia({
 				audio: {
 					// @ts-expect-error - Chrome-specific properties
 					mandatory: {
@@ -40,58 +43,89 @@ export const Offscreen: React.FC = () => {
 						chromeMediaSourceId: streamId,
 					},
 				},
-			})
-			.then((stream) => {
-				console.debug("Setting up media recorder", stream);
+			});
 
-				recorderRef.current = new MediaRecorder(stream);
-				audioContextRef.current = new AudioContext({
-					sampleRate: 16000,
+			let streamToRecord: MediaStream;
+
+			if (includeMicrophone) {
+				try {
+					const micStream = await navigator.mediaDevices.getUserMedia({
+						audio: true,
+					});
+					micStreamRef.current = micStream;
+
+					// Mix tab and microphone using Web Audio API
+					const mixContext = new AudioContext({ sampleRate: 16000 });
+					const destination = mixContext.createMediaStreamDestination();
+
+					const tabSource = mixContext.createMediaStreamSource(tabStream);
+					const micSource = mixContext.createMediaStreamSource(micStream);
+
+					tabSource.connect(destination);
+					micSource.connect(destination);
+
+					streamToRecord = destination.stream;
+					mixContextRef.current = mixContext;
+				} catch (micErr) {
+					console.warn(
+						"Microphone access denied, using tab audio only:",
+						micErr,
+					);
+					streamToRecord = tabStream;
+				}
+			} else {
+				streamToRecord = tabStream;
+			}
+
+			console.debug("Setting up media recorder", streamToRecord);
+
+			recorderRef.current = new MediaRecorder(streamToRecord);
+			audioContextRef.current = new AudioContext({
+				sampleRate: 16000,
+			});
+
+			// Continue to play the captured audio to the user.
+			const output = new AudioContext();
+			const source = output.createMediaStreamSource(recorderRef.current.stream);
+			source.connect(output.destination);
+
+			recorderRef.current.onstart = () => {
+				setRecording(true);
+				setChunks([]);
+				chrome.runtime.sendMessage({
+					type: "recording-state",
+					data: { recording: true },
 				});
+			};
+			recorderRef.current.ondataavailable = (e) => {
+				if (e.data.size > 0) {
+					console.debug("Received chunk", e.data);
+					setChunks((prev) => [...prev, e.data]);
 
-				// Continue to play the captured audio to the user.
-				const output = new AudioContext();
-				const source = output.createMediaStreamSource(
-					recorderRef.current.stream,
-				);
-				source.connect(output.destination);
+					// requestData after 25 seconds
+					setTimeout(() => {
+						if (recorderRef.current) recorderRef.current.requestData();
+					}, 10 * 1000);
+				} else {
+					// Empty chunk received, so we request new data after a short timeout
+					console.debug("Empty chunk received");
+					setTimeout(() => {
+						if (recorderRef.current) recorderRef.current.requestData();
+					}, 25);
+				}
+			};
 
-				recorderRef.current.onstart = () => {
-					setRecording(true);
-					setChunks([]);
-					chrome.runtime.sendMessage({
-						type: "recording-state",
-						data: { recording: true },
-					});
-				};
-				recorderRef.current.ondataavailable = (e) => {
-					if (e.data.size > 0) {
-						console.debug("Received chunk", e.data);
-						setChunks((prev) => [...prev, e.data]);
-
-						// requestData after 25 seconds
-						setTimeout(() => {
-							if (recorderRef.current) recorderRef.current.requestData();
-						}, 10 * 1000);
-					} else {
-						// Empty chunk received, so we request new data after a short timeout
-						console.debug("Empty chunk received");
-						setTimeout(() => {
-							if (recorderRef.current) recorderRef.current.requestData();
-						}, 25);
-					}
-				};
-
-				recorderRef.current.onstop = () => {
-					setRecording(false);
-					chrome.runtime.sendMessage({
-						type: "recording-state",
-						data: { recording: false },
-					});
-				};
-				recorderRef.current.start();
-			})
-			.catch((err) => console.error("The following error occurred: ", err));
+			recorderRef.current.onstop = () => {
+				setRecording(false);
+				chrome.runtime.sendMessage({
+					type: "recording-state",
+					data: { recording: false },
+				});
+			};
+			recorderRef.current.start();
+		} catch (err) {
+			console.error("The following error occurred: ", err);
+		}
 	};
 
 	// transcription
@@ -151,9 +185,14 @@ export const Offscreen: React.FC = () => {
 						});
 					}
 
+					const { mode, transcribeLanguage } = transcriptionSettings;
+					const task = mode === "translate" ? "translate" : "transcribe";
+					const language = mode === "transcribe" ? transcribeLanguage : null;
+
 					const transcripted = (await processWhisperMessage(
 						audioFloat32,
 						language,
+						task,
 					)) as string[] | undefined;
 
 					if (transcripted) {
@@ -179,7 +218,7 @@ export const Offscreen: React.FC = () => {
 		} else {
 			recorderRef.current?.requestData();
 		}
-	}, [recording, chunks, language]);
+	}, [recording, chunks, transcriptionSettings]);
 
 	const setupTriggeredRef = React.useRef(false);
 	const setupOffscreen = () => {
@@ -197,9 +236,17 @@ export const Offscreen: React.FC = () => {
 				console.debug("Received stop-recording message");
 				if (recorderRef.current?.state === "recording") {
 					recorderRef.current.stop();
-					recorderRef.current.stream.getTracks().forEach((track) => track.stop());
+					recorderRef.current.stream.getTracks().forEach((track) => {
+						track.stop();
+					});
 					recorderRef.current = null;
 				}
+				micStreamRef.current?.getTracks().forEach((track) => {
+					track.stop();
+				});
+				micStreamRef.current = null;
+				mixContextRef.current?.close();
+				mixContextRef.current = null;
 			}
 		});
 

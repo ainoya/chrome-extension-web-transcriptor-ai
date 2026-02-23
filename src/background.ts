@@ -17,20 +17,26 @@ const sendStartRecording = (tabId: number) => {
 	});
 };
 
-const startRecording = async (tabId: number) => {
+const startRecording = async (tabId: number): Promise<void> => {
 	const existingContexts = await chrome.runtime.getContexts({});
 	const offscreenDocument = existingContexts.find(
 		(c) => c.contextType === "OFFSCREEN_DOCUMENT",
 	);
 
 	if (!offscreenDocument) {
-		console.debug("creating offscreenDocument");
-		await chrome.offscreen.createDocument({
-			url: "offscreen.html",
-			reasons: [chrome.offscreen.Reason.USER_MEDIA],
-			justification: "Recording from chrome.tabCapture API",
-		});
-		pendingTabId = tabId;
+		try {
+			console.debug("creating offscreenDocument");
+			await chrome.offscreen.createDocument({
+				url: "offscreen.html",
+				reasons: [chrome.offscreen.Reason.USER_MEDIA],
+				justification: "Recording from chrome.tabCapture API",
+			});
+			pendingTabId = tabId;
+		} catch (err) {
+			console.error("Failed to create offscreen document:", err);
+			pendingTabId = undefined;
+			throw err;
+		}
 	} else {
 		sendStartRecording(tabId);
 	}
@@ -52,12 +58,17 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 
 	if (message.type === "start-transcription") {
 		chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
-			const tab = tabs[0];
-			if (tab?.id) {
-				await startRecording(tab.id);
-				sendResponse({ success: true });
-			} else {
-				sendResponse({ success: false, error: "No active tab" });
+			try {
+				const tab = tabs[0];
+				if (tab?.id) {
+					await startRecording(tab.id);
+					sendResponse({ success: true });
+				} else {
+					sendResponse({ success: false, error: "No active tab" });
+				}
+			} catch (err) {
+				console.error("Failed to start transcription:", err);
+				sendResponse({ success: false, error: String(err) });
 			}
 		});
 		return true; // Keep channel open for async sendResponse
