@@ -61,10 +61,23 @@ const SidePanelApp: React.FC = () => {
 			},
 		);
 
-		const messageListener = (message: { type?: string; data?: { transcripted?: string; status?: string; progress?: number; recording?: boolean } }) => {
+		const messageListener = (message: {
+			type?: string;
+			data?: {
+				transcripted?: string;
+				status?: string;
+				progress?: number;
+				recording?: boolean;
+			};
+		}) => {
 			if (message.type === "transcript") {
-				console.debug("Received transcript message", message.data?.transcripted);
-				setTranscription((prev) => `${prev}\n${message.data?.transcripted ?? ""}`);
+				console.debug(
+					"Received transcript message",
+					message.data?.transcripted,
+				);
+				setTranscription(
+					(prev) => `${prev}\n${message.data?.transcripted ?? ""}`,
+				);
 			} else if (message.type === "model-status") {
 				console.debug("Received model status", message.data?.status);
 				const status = message.data?.status;
