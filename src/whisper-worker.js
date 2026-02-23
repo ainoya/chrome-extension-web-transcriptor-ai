@@ -64,18 +64,15 @@ function toWhisperLanguage(language) {
 	return language.includes("/") ? language.split("/")[0].trim() : language;
 }
 
-/**
- * Get Whisper task based on language.
- * - English: transcribe (output in English)
- * - Non-English: translate (output in English, translating from source language)
- */
-function getTaskFromLanguage(language) {
-	const whisperLang = toWhisperLanguage(language);
-	return whisperLang === "english" ? "transcribe" : "translate";
-}
-
 let processing = false;
-export async function processWhisperMessage(audio, language) {
+
+/**
+ * Process audio with Whisper.
+ * @param {Float32Array} audio - Audio samples
+ * @param {string|null} language - Source language (null = auto-detect). For translate, this is the source language hint.
+ * @param {"transcribe"|"translate"} task - Whisper task. transcribe=output in same language, translate=output in English
+ */
+export async function processWhisperMessage(audio, language, task) {
 	if (processing) return;
 	processing = true;
 	if (!audio) {
@@ -83,8 +80,8 @@ export async function processWhisperMessage(audio, language) {
 		processing = false;
 		return;
 	}
-	const whisperLanguage = toWhisperLanguage(language);
-	console.debug("processWhisperMessage", audio, whisperLanguage);
+	const whisperLanguage = language ? toWhisperLanguage(language) : null;
+	console.debug("processWhisperMessage", audio, whisperLanguage, task);
 	// const audioF32 = new Float32Array(audio);
 	// console.debug("audio", audioF32);
 
@@ -132,13 +129,13 @@ export async function processWhisperMessage(audio, language) {
 
 	const inputs = await processor(audio);
 
-	const task = getTaskFromLanguage(language);
-	console.debug("Whisper task:", task, "language:", whisperLanguage);
+	const effectiveTask = task || "transcribe";
+	console.debug("Whisper task:", effectiveTask, "language:", whisperLanguage);
 
 	const outputs = await model.generate({
 		...inputs,
 		max_new_tokens: MAX_NEW_TOKENS,
-		task,
+		task: effectiveTask,
 		language: whisperLanguage,
 		streamer,
 	});
