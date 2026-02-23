@@ -203,6 +203,9 @@ export const Offscreen: React.FC = () => {
 							},
 						});
 					}
+					// When transcripted is undefined, processWhisperMessage skipped due to
+					// concurrent processing (e.g. resume pressed while previous chunk still processing).
+					// Do not set error status in that case.
 				} catch (err) {
 					console.error("Transcription failed:", err);
 					chrome.runtime.sendMessage({

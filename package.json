@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:watch": "concurrently \"tsc -b --watch\" \"vite build --watch\"",
     "check": "biome check . --config-path=./biome.json",
     "preview": "vite preview"
   },
@@ -30,6 +31,7 @@
     "turndown": "^7.2.0"
   },
   "devDependencies": {
+    "concurrently": "^9.1.2",
     "@biomejs/biome": "^2.4.4",
     "@tailwindcss/postcss": "^4.2.0",
     "@types/audioworklet": "^0.0.95",

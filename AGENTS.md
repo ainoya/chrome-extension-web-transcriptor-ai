@@ -11,5 +11,6 @@ This is an **open-source software (OSS)** project.
 All project artifacts must be written in **English**:
 
 - **Code**: Variable names, function names, class names, and all code elements
-- **Pull Requests (PRs)**: Title, description, commit messages, and review comments
 - **Comments**: Code comments, documentation comments, and inline explanations
+- **UI**: Buttons, labels, and all user-facing text
+- **Pull Requests (PRs)**: Title, description, commit messages, and review comments

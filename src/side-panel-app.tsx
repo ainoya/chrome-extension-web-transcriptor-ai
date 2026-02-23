@@ -45,24 +45,58 @@ const SidePanelApp: React.FC = () => {
 	const [loadingProgress, setLoadingProgress] = useAtom(
 		modelLoadingProgressAtom,
 	);
+	const [isRecording, setIsRecording] = useState(false);
 
 	useEffect(() => {
 		fetchAiCapabilities().then((capabilities) => {
 			setAiCapabilities(capabilities);
 		});
 
-		chrome.runtime.onMessage.addListener((message) => {
-			if (message.type === "transcript") {
-				console.debug("Received transcript message", message.data.transcripted);
-				setTranscription((prev) => `${prev}\n${message.data.transcripted}`);
-			} else if (message.type === "model-status") {
-				console.debug("Received model status", message.data.status);
-				setModelStatus(message.data.status);
-				if (message.data.status === "loading") {
-					setLoadingProgress(message.data.progress);
+		chrome.runtime.sendMessage(
+			{ type: "get-recording-state" },
+			(response?: { recording?: boolean }) => {
+				if (response?.recording !== undefined) {
+					setIsRecording(response.recording);
 				}
+			},
+		);
+
+		const messageListener = (message: {
+			type?: string;
+			data?: {
+				transcripted?: string;
+				status?: string;
+				progress?: number;
+				recording?: boolean;
+			};
+		}) => {
+			if (message.type === "transcript") {
+				console.debug(
+					"Received transcript message",
+					message.data?.transcripted,
+				);
+				setTranscription(
+					(prev) => `${prev}\n${message.data?.transcripted ?? ""}`,
+				);
+			} else if (message.type === "model-status") {
+				console.debug("Received model status", message.data?.status);
+				const status = message.data?.status;
+				setModelStatus(
+					status === "loading" || status === "ready" || status === "error"
+						? status
+						: "unknown",
+				);
+				if (message.data?.status === "loading") {
+					setLoadingProgress(message.data?.progress ?? 0);
+				}
+			} else if (message.type === "recording-state") {
+				setIsRecording(message.data?.recording ?? false);
 			}
-		});
+		};
+		chrome.runtime.onMessage.addListener(messageListener);
+		return () => {
+			chrome.runtime.onMessage.removeListener(messageListener);
+		};
 	}, [setModelStatus, setLoadingProgress]);
 
 	const { toast } = useToast();
@@ -217,14 +251,29 @@ const SidePanelApp: React.FC = () => {
 						Mix your voice with tab audio for transcription
 					</p>
 				</div>
-				{/* record button */}
-				{/* <div className="flex flex-col m-1 p-1">
-          <Button
-            onClick={() => chrome.runtime.sendMessage({ type: "startCapture" })}
-          >
-            Stop Recording
-          </Button>
-        </div> */}
+				{/* Transcription Resume / Stop buttons */}
+				<div className="flex flex-col gap-2 m-1 p-1">
+					<div className="flex gap-2">
+						<Button
+							variant={isRecording ? "outline" : "default"}
+							disabled={isRecording}
+							onClick={() =>
+								chrome.runtime.sendMessage({ type: "start-transcription" })
+							}
+						>
+							Resume
+						</Button>
+						<Button
+							variant={isRecording ? "destructive" : "outline"}
+							disabled={!isRecording}
+							onClick={() =>
+								chrome.runtime.sendMessage({ type: "stop-transcription" })
+							}
+						>
+							Stop
+						</Button>
+					</div>
+				</div>
 				{/* if status is unknown or error, show loading model button */}
 				{/* {(modelStatus === "unknown" || modelStatus === "error") && (
           <div className="flex flex-col m-1 p-1">
