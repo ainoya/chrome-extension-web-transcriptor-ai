@@ -59,6 +59,10 @@ export const Offscreen: React.FC = () => {
 				recorderRef.current.onstart = () => {
 					setRecording(true);
 					setChunks([]);
+					chrome.runtime.sendMessage({
+						type: "recording-state",
+						data: { recording: true },
+					});
 				};
 				recorderRef.current.ondataavailable = (e) => {
 					if (e.data.size > 0) {
@@ -80,6 +84,10 @@ export const Offscreen: React.FC = () => {
 
 				recorderRef.current.onstop = () => {
 					setRecording(false);
+					chrome.runtime.sendMessage({
+						type: "recording-state",
+						data: { recording: false },
+					});
 				};
 				recorderRef.current.start();
 			})
@@ -146,14 +154,19 @@ export const Offscreen: React.FC = () => {
 					const transcripted = (await processWhisperMessage(
 						audioFloat32,
 						language,
-					)) as string[];
+					)) as string[] | undefined;
 
-					chrome.runtime.sendMessage({
-						type: "transcript",
-						data: {
-							transcripted: transcripted.join("\n"),
-						},
-					});
+					if (transcripted) {
+						chrome.runtime.sendMessage({
+							type: "transcript",
+							data: {
+								transcripted: transcripted.join("\n"),
+							},
+						});
+					}
+					// When transcripted is undefined, processWhisperMessage skipped due to
+					// concurrent processing (e.g. resume pressed while previous chunk still processing).
+					// Do not set error status in that case.
 				} catch (err) {
 					console.error("Transcription failed:", err);
 					chrome.runtime.sendMessage({
@@ -180,6 +193,13 @@ export const Offscreen: React.FC = () => {
 			if (message.type === "start-recording") {
 				console.debug("Received start-recording message", message.streamId);
 				setupMediaRecorder(message.streamId);
+			} else if (message.type === "stop-recording") {
+				console.debug("Received stop-recording message");
+				if (recorderRef.current?.state === "recording") {
+					recorderRef.current.stop();
+					recorderRef.current.stream.getTracks().forEach((track) => track.stop());
+					recorderRef.current = null;
+				}
 			}
 		});
 
