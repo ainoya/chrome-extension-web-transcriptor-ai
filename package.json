@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.4",
+    "@tailwindcss/postcss": "^4.2.0",
     "@types/audioworklet": "^0.0.95",
     "@types/chrome": "^0.1.0",
     "@types/dom-chromium-ai": "^0.0.14",
@@ -40,9 +41,8 @@
     "@types/turndown": "^5.0.4",
     "@types/webspeechapi": "^0.0.29",
     "@vitejs/plugin-react-swc": "^4.0.0",
-    "autoprefixer": "^10.4.19",
     "postcss": "^8.4.39",
-    "tailwindcss": "^3.4.4",
+    "tailwindcss": "^4.2.0",
     "typescript": "^5.5.3",
     "vite": "^7.0.0"
   }

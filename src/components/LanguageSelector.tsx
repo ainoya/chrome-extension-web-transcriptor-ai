@@ -15,7 +15,7 @@ export const LanguageSelector: React.FC<{
 
 	return (
 		<Select.Root onValueChange={handleLanguageChange} defaultValue={language}>
-			<Select.Trigger className="inline-flex h-[35px] items-center justify-center gap-[5px] rounded px-[15px] text-[13px] leading-none outline-none hover:bg-mauve3 focus:shadow-[0_0_0_2px]">
+			<Select.Trigger className="inline-flex h-[35px] items-center justify-center gap-[5px] rounded px-[15px] text-[13px] leading-none outline-hidden hover:bg-mauve3 focus:shadow-[0_0_0_2px]">
 				<Select.Value
 					placeholder="Select a language…"
 					defaultValue={language}
@@ -25,7 +25,7 @@ export const LanguageSelector: React.FC<{
 				</Select.Icon>
 			</Select.Trigger>
 			<Select.Portal>
-				<Select.Content className="overflow-hidden rounded-md bg-black shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]">
+				<Select.Content className="overflow-hidden rounded-md bg-black shadow-[0px_10px_38px_-10px_rgba(22,23,24,0.35),0px_10px_20px_-15px_rgba(22,23,24,0.2)]">
 					<Select.ScrollUpButton className="flex h-[25px] cursor-default items-center justify-center">
 						<ChevronUpIcon />
 					</Select.ScrollUpButton>
