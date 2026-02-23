@@ -33,7 +33,7 @@
     "@biomejs/biome": "^1.9.4",
     "@types/audioworklet": "^0.0.95",
     "@types/chrome": "^0.1.0",
-    "@types/dom-chromium-ai": "^0.0.6",
+    "@types/dom-chromium-ai": "^0.0.14",
     "@types/node": "^24.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
