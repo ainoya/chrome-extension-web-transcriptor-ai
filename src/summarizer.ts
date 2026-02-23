@@ -39,7 +39,7 @@ export async function summarizeWebPage(language: string): Promise<string> {
 
 	// Generate summary using Gemini Nano
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore
+	// @ts-expect-error - Chromium AI API types may not be fully available
 	const session = await window.ai.assistant.create({
 		systemPrompt:
 			"You are helpful assistant to summarize web article. Your output is markdown formatted. please summary with bullet points and meaningful sections.",
@@ -58,7 +58,7 @@ export async function summarizeWebPage(language: string): Promise<string> {
 	console.debug("language", language);
 	// initialize session for tlanslation
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore
+	// @ts-expect-error - Chromium AI API types may not be fully available
 	const sessionTranslator = await window.ai.assistant.create({
 		systemPrompt: "You are helpful assistant to translate the summary",
 		topK: 10,
