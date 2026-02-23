@@ -55,6 +55,25 @@ class AutomaticSpeechRecognitionPipeline {
 	}
 }
 
+/**
+ * Convert UI language format to Whisper format.
+ * UI uses compound names (e.g. "spanish/castilian") but Whisper expects single names (e.g. "spanish").
+ */
+function toWhisperLanguage(language) {
+	if (!language || typeof language !== "string") return language;
+	return language.includes("/") ? language.split("/")[0].trim() : language;
+}
+
+/**
+ * Get Whisper task based on language.
+ * - English: transcribe (output in English)
+ * - Non-English: translate (output in English, translating from source language)
+ */
+function getTaskFromLanguage(language) {
+	const whisperLang = toWhisperLanguage(language);
+	return whisperLang === "english" ? "transcribe" : "translate";
+}
+
 let processing = false;
 export async function processWhisperMessage(audio, language) {
 	if (processing) return;
@@ -64,7 +83,8 @@ export async function processWhisperMessage(audio, language) {
 		processing = false;
 		return;
 	}
-	console.debug("processWhisperMessage", audio, language);
+	const whisperLanguage = toWhisperLanguage(language);
+	console.debug("processWhisperMessage", audio, whisperLanguage);
 	// const audioF32 = new Float32Array(audio);
 	// console.debug("audio", audioF32);
 
@@ -112,10 +132,14 @@ export async function processWhisperMessage(audio, language) {
 
 	const inputs = await processor(audio);
 
+	const task = getTaskFromLanguage(language);
+	console.debug("Whisper task:", task, "language:", whisperLanguage);
+
 	const outputs = await model.generate({
 		...inputs,
 		max_new_tokens: MAX_NEW_TOKENS,
-		language,
+		task,
+		language: whisperLanguage,
 		streamer,
 	});
 
