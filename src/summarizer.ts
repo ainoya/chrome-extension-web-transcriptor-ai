@@ -21,7 +21,7 @@ export async function summarizeWebPage(language: string): Promise<string> {
 	const reader = new Readability(doc);
 	const article = reader.parse();
 
-	if (!article) {
+	if (!article?.content) {
 		throw new Error("Failed to extract article content");
 	}
 
@@ -38,8 +38,9 @@ export async function summarizeWebPage(language: string): Promise<string> {
 	}
 
 	// Generate summary using Gemini Nano
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore
+	if (!window.ai) {
+		throw new Error("AI capabilities not available");
+	}
 	const session = await window.ai.assistant.create({
 		systemPrompt:
 			"You are helpful assistant to summarize web article. Your output is markdown formatted. please summary with bullet points and meaningful sections.",
@@ -57,8 +58,6 @@ export async function summarizeWebPage(language: string): Promise<string> {
 	// Translate the summary to Japanese
 	console.debug("language", language);
 	// initialize session for tlanslation
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore
 	const sessionTranslator = await window.ai.assistant.create({
 		systemPrompt: "You are helpful assistant to translate the summary",
 		topK: 10,

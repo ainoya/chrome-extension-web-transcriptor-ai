@@ -6,7 +6,7 @@ import { Toaster } from "./components/ui/toaster";
 import SidePanelApp from "./side-panel-app";
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-// biome-ignore lint/style/noNonNullAssertion: <explanation>
+// biome-ignore lint/style/noNonNullAssertion: root element is guaranteed to exist in index.html
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
 		<ThemeProvider storageKey="chrome-extension-transcriptor-theme">
