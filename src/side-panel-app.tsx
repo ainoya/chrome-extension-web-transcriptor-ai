@@ -9,6 +9,7 @@ import { LanguageSelector } from "./components/LanguageSelector";
 import {
 	type TranscriptionLanguage,
 	transcriptionSettingsAtom,
+	getTaskFromLanguage,
 } from "./jotai/settingAtom";
 import { useAtom } from "jotai";
 import {
@@ -114,6 +115,12 @@ const SidePanelApp: React.FC = () => {
 							})
 						}
 					/>
+					<p className="text-xs text-muted-foreground mt-1">
+						Mode:{" "}
+						{getTaskFromLanguage(language) === "transcribe"
+							? "Transcribe"
+							: "Translate to English"}
+					</p>
 				</div>
 				{/* record button */}
 				{/* <div className="flex flex-col m-1 p-1">

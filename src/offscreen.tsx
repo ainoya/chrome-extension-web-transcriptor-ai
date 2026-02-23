@@ -1,9 +1,16 @@
+// MUST be first: configure ONNX Runtime to use local WASM (Chrome extension CSP blocks CDN)
+import "./ort-env-bootstrap";
+
 import React from "react";
 import { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "./globals.css";
 import { useAtom } from "jotai";
 import { transcriptionSettingsAtom } from "./jotai/settingAtom";
+import {
+	initializeWhisperWorker,
+	processWhisperMessage,
+} from "./whisper-worker.js";
 
 // https://github.com/huggingface/transformers.js/blob/7a58d6e11968dd85dc87ce37b2ab37213165889a/examples/webgpu-whisper/src/App.jsx
 // const IS_WEBGPU_AVAILABLE = !!navigator.gpu;
@@ -19,6 +26,7 @@ export const Offscreen: React.FC = () => {
 	const [recording, setRecording] = React.useState(false);
 	const audioContextRef = React.useRef<AudioContext | null>(null);
 	const [chunks, setChunks] = React.useState<Blob[]>([]);
+	const modelLoadedRef = React.useRef(false);
 
 	const setupMediaRecorder = (streamId: string) => {
 		if (recorderRef.current) return; // Already set
@@ -112,24 +120,47 @@ export const Offscreen: React.FC = () => {
 				}
 				console.debug("Decoded audio", audio);
 
-				const serializedAudio = JSON.stringify(Array.from(audio));
+				const audioFloat32 = new Float32Array(audio);
 
-				// worker.current.postMessage({
-				//   type: "generate",
-				//   data: { audio, language },
-				// });
-				chrome.runtime.sendMessage({
-					type: "transcription-message",
-					data: {
-						type: "generate",
-						serializedAudio: serializedAudio,
-						// model: "Xenova/whisper-tiny",
-						// multilingual: true,
-						// quantized: false,
-						// subtask: "transcribe",
-						language: language,
-					},
-				});
+				// Run Whisper in Offscreen Document (supports dynamic import() for WebGPU)
+				// Service Worker does not support dynamic import() per HTML spec
+				try {
+					if (!modelLoadedRef.current) {
+						chrome.runtime.sendMessage({
+							type: "model-status",
+							data: { status: "loading", progress: 0 },
+						});
+						await initializeWhisperWorker((progress) => {
+							chrome.runtime.sendMessage({
+								type: "model-status",
+								data: { status: "loading", progress },
+							});
+						});
+						modelLoadedRef.current = true;
+						chrome.runtime.sendMessage({
+							type: "model-status",
+							data: { status: "ready" },
+						});
+					}
+
+					const transcripted = (await processWhisperMessage(
+						audioFloat32,
+						language,
+					)) as string[];
+
+					chrome.runtime.sendMessage({
+						type: "transcript",
+						data: {
+							transcripted: transcripted.join("\n"),
+						},
+					});
+				} catch (err) {
+					console.error("Transcription failed:", err);
+					chrome.runtime.sendMessage({
+						type: "model-status",
+						data: { status: "error" },
+					});
+				}
 			};
 			fileReader.readAsArrayBuffer(blob);
 		} else {

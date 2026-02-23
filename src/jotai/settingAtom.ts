@@ -110,6 +110,17 @@ export const LANGUAGES = {
 // language set to union of values of LANGUAGES
 export type TranscriptionLanguage = (typeof LANGUAGES)[keyof typeof LANGUAGES];
 
+/** Whisper task: transcribe (same language) or translate (to English) */
+export type TranscriptionTask = "transcribe" | "translate";
+
+/** Returns transcription task based on language. English=transcribe, others=translate to English */
+export function getTaskFromLanguage(
+	language: TranscriptionLanguage,
+): TranscriptionTask {
+	const base = language.includes("/") ? language.split("/")[0].trim() : language;
+	return base === "english" ? "transcribe" : "translate";
+}
+
 export type TranscriptionSettings = {
 	language: TranscriptionLanguage;
 };
