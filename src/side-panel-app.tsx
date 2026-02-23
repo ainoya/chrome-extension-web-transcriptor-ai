@@ -9,7 +9,7 @@ import { LanguageSelector } from "./components/LanguageSelector";
 import {
 	type TranscriptionLanguage,
 	transcriptionSettingsAtom,
-	getTaskFromLanguage,
+	TRANSLATE_TARGET_LANGUAGES,
 } from "./jotai/settingAtom";
 import { useAtom } from "jotai";
 import {
@@ -70,7 +70,9 @@ const SidePanelApp: React.FC = () => {
 	const handleSummarize = async () => {
 		setIsSummaryLoading(true);
 		try {
-			const result = await summarizeWebPage(transcriptionSettings.language);
+			const result = await summarizeWebPage(
+				transcriptionSettings.summarizationLanguage,
+			);
 			setSummary(result);
 			toast({
 				description: "Summarized",
@@ -88,9 +90,6 @@ const SidePanelApp: React.FC = () => {
 		}
 	};
 
-	const language: TranscriptionLanguage =
-		transcriptionSettings.language as TranscriptionLanguage;
-
 	return (
 		<div className="container">
 			<div className="box-border">
@@ -107,19 +106,112 @@ const SidePanelApp: React.FC = () => {
 					</div>
 				</div>
 				<div className="flex flex-col m-1 p-1">
-					<LanguageSelector
-						language={language}
-						setLanguage={(language: TranscriptionLanguage) =>
-							setTranscriptionSettings((prev) => {
-								return { ...prev, language };
-							})
-						}
-					/>
-					<p className="text-xs text-muted-foreground mt-1">
-						Mode:{" "}
-						{getTaskFromLanguage(language) === "transcribe"
-							? "Transcribe"
-							: "Translate to English"}
+					{/* Mode selector */}
+					<div className="mb-2">
+						<label className="text-sm font-medium block mb-1">
+							Transcription Mode
+						</label>
+						<div className="flex gap-4">
+							<label className="flex items-center gap-2 cursor-pointer">
+								<input
+									type="radio"
+									name="mode"
+									checked={transcriptionSettings.mode === "transcribe"}
+									onChange={() =>
+										setTranscriptionSettings((prev) => ({
+											...prev,
+											mode: "transcribe",
+										}))
+									}
+								/>
+								<span className="text-sm">Transcribe</span>
+							</label>
+							<label className="flex items-center gap-2 cursor-pointer">
+								<input
+									type="radio"
+									name="mode"
+									checked={transcriptionSettings.mode === "translate"}
+									onChange={() =>
+										setTranscriptionSettings((prev) => ({
+											...prev,
+											mode: "translate",
+										}))
+									}
+								/>
+								<span className="text-sm">Translate</span>
+							</label>
+						</div>
+					</div>
+
+					{/* Transcribe mode: source language */}
+					{transcriptionSettings.mode === "transcribe" && (
+						<div className="mb-2">
+							<label className="text-sm font-medium block mb-1">
+								Source Language
+							</label>
+							<LanguageSelector
+								language={transcriptionSettings.transcribeLanguage}
+								setLanguage={(lang) =>
+									setTranscriptionSettings((prev) => ({
+										...prev,
+										transcribeLanguage: lang,
+									}))
+								}
+								includeAuto
+							/>
+							<p className="text-xs text-muted-foreground mt-1">
+								Output in the same language as input
+							</p>
+						</div>
+					)}
+
+					{/* Translate mode: target language */}
+					{transcriptionSettings.mode === "translate" && (
+						<div className="mb-2">
+							<label className="text-sm font-medium block mb-1">
+								Target Language
+							</label>
+							<select
+								className="rounded px-3 py-1.5 text-sm border"
+								value={
+									transcriptionSettings.translateTargetLanguage ?? "english"
+								}
+								onChange={(e) =>
+									setTranscriptionSettings((prev) => ({
+										...prev,
+										translateTargetLanguage: e.target
+											.value as "english",
+									}))
+								}
+							>
+								{TRANSLATE_TARGET_LANGUAGES.map((lang) => (
+									<option key={lang} value={lang}>
+										{lang.charAt(0).toUpperCase() + lang.slice(1)}
+									</option>
+								))}
+							</select>
+							<p className="text-xs text-muted-foreground mt-1">
+								Translate audio to English (Whisper limitation)
+							</p>
+						</div>
+					)}
+
+					<label className="flex items-center gap-2 mt-2 cursor-pointer">
+						<input
+							type="checkbox"
+							checked={transcriptionSettings.includeMicrophone ?? false}
+							onChange={(e) =>
+								setTranscriptionSettings((prev) => ({
+									...prev,
+									includeMicrophone: e.target.checked,
+								}))
+							}
+							className="rounded"
+						/>
+						<span className="text-sm">Include microphone</span>
+					</label>
+					<p className="text-xs text-muted-foreground mt-0.5">
+						Mix your voice with tab audio for transcription
 					</p>
 				</div>
 				{/* record button */}
@@ -175,11 +267,12 @@ const SidePanelApp: React.FC = () => {
 				{aiCapabilities.available !== "no" && (
 					<AiSummarizer
 						setLanguage={(language: TranscriptionLanguage) =>
-							setTranscriptionSettings((prev) => {
-								return { ...prev, language: language };
-							})
+							setTranscriptionSettings((prev) => ({
+								...prev,
+								summarizationLanguage: language,
+							}))
 						}
-						language={transcriptionSettings.language}
+						language={transcriptionSettings.summarizationLanguage}
 						isSummaryLoading={isSummaryLoading}
 						handleSummarize={handleSummarize}
 						summary={summary}

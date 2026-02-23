@@ -2,7 +2,8 @@
 export declare module "./whisper-worker.js" {
 	export declare function processWhisperMessage(
 		audio: Float32Array,
-		language: string,
+		language: string | null,
+		task: "transcribe" | "translate",
 		// biome-ignore lint/suspicious/noExplicitAny: Whisper returns transcription result object
 	): Promise<any>;
 	export declare function initializeWhisperWorker(

@@ -110,26 +110,81 @@ export const LANGUAGES = {
 // language set to union of values of LANGUAGES
 export type TranscriptionLanguage = (typeof LANGUAGES)[keyof typeof LANGUAGES];
 
-/** Whisper task: transcribe (same language) or translate (to English) */
+/** Whisper task: transcribe (same language) or translate (to target language) */
 export type TranscriptionTask = "transcribe" | "translate";
 
-/** Returns transcription task based on language. English=transcribe, others=translate to English */
-export function getTaskFromLanguage(
-	language: TranscriptionLanguage,
-): TranscriptionTask {
-	const base = language.includes("/")
-		? language.split("/")[0].trim()
-		: language;
-	return base === "english" ? "transcribe" : "translate";
-}
+/** Transcription mode selected by user */
+export type TranscriptionMode = "transcribe" | "translate";
+
+/** Languages available as translate target (Whisper only supports English) */
+export const TRANSLATE_TARGET_LANGUAGES = ["english"] as const;
+export type TranslateTargetLanguage =
+	(typeof TRANSLATE_TARGET_LANGUAGES)[number];
 
 export type TranscriptionSettings = {
-	language: TranscriptionLanguage;
+	/** Transcription mode */
+	mode: TranscriptionMode;
+	/** For transcribe mode: source language. null = auto-detect */
+	transcribeLanguage: TranscriptionLanguage | null;
+	/** For translate mode: target language (Whisper only supports English) */
+	translateTargetLanguage: TranslateTargetLanguage | null;
+	/** Include microphone input mixed with tab audio for transcription */
+	includeMicrophone: boolean;
+	/** Language for AI summarization output (separate from transcription) */
+	summarizationLanguage: TranscriptionLanguage;
+};
+
+const DEFAULT_SETTINGS: TranscriptionSettings = {
+	mode: "transcribe",
+	transcribeLanguage: null,
+	translateTargetLanguage: "english",
+	includeMicrophone: false,
+	summarizationLanguage: "english" as TranscriptionLanguage,
+};
+
+function migrateSettings(stored: unknown): TranscriptionSettings {
+	if (!stored || typeof stored !== "object") return DEFAULT_SETTINGS;
+	const s = stored as Record<string, unknown>;
+	// Migrate from old format: { language, includeMicrophone }
+	if ("language" in s && !("mode" in s)) {
+		const lang = s.language as string;
+		const base = lang?.includes("/") ? lang.split("/")[0].trim() : lang;
+		return {
+			mode: base === "english" ? "transcribe" : "translate",
+			transcribeLanguage:
+				base === "english" ? (lang as TranscriptionLanguage) : null,
+			translateTargetLanguage: "english",
+			includeMicrophone: Boolean(s.includeMicrophone),
+			summarizationLanguage: (s.language as TranscriptionLanguage) ?? "english",
+		};
+	}
+	return { ...DEFAULT_SETTINGS, ...s } as TranscriptionSettings;
+}
+
+const storage = {
+	getItem: (
+		key: string,
+		initialValue: TranscriptionSettings,
+	): TranscriptionSettings => {
+		const stored = localStorage.getItem(key);
+		if (!stored) return initialValue;
+		try {
+			const parsed = JSON.parse(stored) as unknown;
+			return migrateSettings(parsed);
+		} catch {
+			return initialValue;
+		}
+	},
+	setItem: (key: string, value: TranscriptionSettings) => {
+		localStorage.setItem(key, JSON.stringify(value));
+	},
+	removeItem: (key: string) => {
+		localStorage.removeItem(key);
+	},
 };
 
 export const transcriptionSettingsAtom = atomWithStorage<TranscriptionSettings>(
 	"transcriptionSettings",
-	{
-		language: "english" as TranscriptionLanguage,
-	},
+	DEFAULT_SETTINGS,
+	storage,
 );
