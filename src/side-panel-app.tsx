@@ -108,9 +108,9 @@ const SidePanelApp: React.FC = () => {
 				<div className="flex flex-col m-1 p-1">
 					{/* Mode selector */}
 					<div className="mb-2">
-						<label className="text-sm font-medium block mb-1">
+						<span className="text-sm font-medium block mb-1">
 							Transcription Mode
-						</label>
+						</span>
 						<div className="flex gap-4">
 							<label className="flex items-center gap-2 cursor-pointer">
 								<input
@@ -146,9 +146,9 @@ const SidePanelApp: React.FC = () => {
 					{/* Transcribe mode: source language */}
 					{transcriptionSettings.mode === "transcribe" && (
 						<div className="mb-2">
-							<label className="text-sm font-medium block mb-1">
+							<span className="text-sm font-medium block mb-1">
 								Source Language
-							</label>
+							</span>
 							<LanguageSelector
 								language={transcriptionSettings.transcribeLanguage}
 								setLanguage={(lang) =>
@@ -168,10 +168,14 @@ const SidePanelApp: React.FC = () => {
 					{/* Translate mode: target language */}
 					{transcriptionSettings.mode === "translate" && (
 						<div className="mb-2">
-							<label className="text-sm font-medium block mb-1">
+							<label
+								htmlFor="translate-target-language"
+								className="text-sm font-medium block mb-1"
+							>
 								Target Language
 							</label>
 							<select
+								id="translate-target-language"
 								className="rounded px-3 py-1.5 text-sm border"
 								value={
 									transcriptionSettings.translateTargetLanguage ?? "english"
@@ -179,8 +183,7 @@ const SidePanelApp: React.FC = () => {
 								onChange={(e) =>
 									setTranscriptionSettings((prev) => ({
 										...prev,
-										translateTargetLanguage: e.target
-											.value as "english",
+										translateTargetLanguage: e.target.value as "english",
 									}))
 								}
 							>

@@ -67,7 +67,10 @@ export const Offscreen: React.FC = () => {
 					streamToRecord = destination.stream;
 					mixContextRef.current = mixContext;
 				} catch (micErr) {
-					console.warn("Microphone access denied, using tab audio only:", micErr);
+					console.warn(
+						"Microphone access denied, using tab audio only:",
+						micErr,
+					);
 					streamToRecord = tabStream;
 				}
 			} else {
@@ -83,9 +86,7 @@ export const Offscreen: React.FC = () => {
 
 			// Continue to play the captured audio to the user.
 			const output = new AudioContext();
-			const source = output.createMediaStreamSource(
-				recorderRef.current.stream,
-			);
+			const source = output.createMediaStreamSource(recorderRef.current.stream);
 			source.connect(output.destination);
 
 			recorderRef.current.onstart = () => {
@@ -185,12 +186,8 @@ export const Offscreen: React.FC = () => {
 					}
 
 					const { mode, transcribeLanguage } = transcriptionSettings;
-					const task =
-						mode === "translate"
-							? "translate"
-							: "transcribe";
-					const language =
-						mode === "transcribe" ? transcribeLanguage : null;
+					const task = mode === "translate" ? "translate" : "transcribe";
+					const language = mode === "transcribe" ? transcribeLanguage : null;
 
 					const transcripted = (await processWhisperMessage(
 						audioFloat32,
@@ -236,10 +233,14 @@ export const Offscreen: React.FC = () => {
 				console.debug("Received stop-recording message");
 				if (recorderRef.current?.state === "recording") {
 					recorderRef.current.stop();
-					recorderRef.current.stream.getTracks().forEach((track) => track.stop());
+					recorderRef.current.stream.getTracks().forEach((track) => {
+						track.stop();
+					});
 					recorderRef.current = null;
 				}
-				micStreamRef.current?.getTracks().forEach((track) => track.stop());
+				micStreamRef.current?.getTracks().forEach((track) => {
+					track.stop();
+				});
 				micStreamRef.current = null;
 				mixContextRef.current?.close();
 				mixContextRef.current = null;
