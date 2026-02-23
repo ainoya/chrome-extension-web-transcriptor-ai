@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.21](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.20...v0.0.21) - 2026-02-23
+- feat: Add microphone mixing and transcription mode selection by @ainoya in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/556
+- fix: model status error on resume after stop, add build:watch script by @ainoya in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/555
+
 ## [v0.0.20](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.19...v0.0.20) - 2026-02-23
 - Update dependency @types/chrome to ^0.0.300 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/149
 - Update dependency jotai to v2.11.2 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/153
