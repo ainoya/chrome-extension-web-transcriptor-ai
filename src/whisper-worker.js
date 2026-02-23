@@ -14,7 +14,7 @@ const MAX_NEW_TOKENS = 64;
  * This class uses the Singleton pattern to ensure that only one instance of the model is loaded.
  */
 
-// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
+// biome-ignore lint/complexity/noStaticOnlyClass: Singleton pattern for model loading
 class AutomaticSpeechRecognitionPipeline {
 	static model_id = null;
 	static tokenizer = null;
@@ -22,24 +22,24 @@ class AutomaticSpeechRecognitionPipeline {
 	static model = null;
 
 	static async getInstance(progress_callback = null) {
-		// biome-ignore lint/complexity/noThisInStatic: <explanation>
+		// biome-ignore lint/complexity/noThisInStatic: static class with shared state for model loading
 		this.model_id = "onnx-community/whisper-large-v3-turbo";
 		// this.model_id = "onnx-community/whisper-base";
 
 		AutomaticSpeechRecognitionPipeline;
 		AutomaticSpeechRecognitionPipeline.tokenizer ??=
-			// biome-ignore lint/complexity/noThisInStatic: <explanation>
+			// biome-ignore lint/complexity/noThisInStatic: static class with shared state for model loading
 			AutoTokenizer.from_pretrained(this.model_id, {
 				progress_callback,
 			});
-		// biome-ignore lint/complexity/noThisInStatic: <explanation>
+		// biome-ignore lint/complexity/noThisInStatic: static class with shared state for model loading
 		this.processor ??= AutoProcessor.from_pretrained(this.model_id, {
 			progress_callback,
 		});
 
-		// biome-ignore lint/complexity/noThisInStatic: <explanation>
+		// biome-ignore lint/complexity/noThisInStatic: static class with shared state for model loading
 		this.model ??= WhisperForConditionalGeneration.from_pretrained(
-			// biome-ignore lint/complexity/noThisInStatic: <explanation>
+			// biome-ignore lint/complexity/noThisInStatic: static class with shared state for model loading
 			this.model_id,
 			{
 				dtype: {
@@ -50,7 +50,7 @@ class AutomaticSpeechRecognitionPipeline {
 				progress_callback,
 			},
 		);
-		// biome-ignore lint/complexity/noThisInStatic: <explanation>
+		// biome-ignore lint/complexity/noThisInStatic: static class with shared state for model loading
 		return Promise.all([this.tokenizer, this.processor, this.model]);
 	}
 }
@@ -91,9 +91,9 @@ export async function processWhisperMessage(audio, language) {
 	const callback_function = (output) => {
 		startTime ??= performance.now();
 
-		let tps;
+		let _tps;
 		if (numTokens++ > 0) {
-			tps = (numTokens / (performance.now() - startTime)) * 1000;
+			_tps = (numTokens / (performance.now() - startTime)) * 1000;
 		}
 		console.debug("callback_func/output", output);
 		// self.postMessage({
@@ -131,7 +131,7 @@ export async function processWhisperMessage(audio, language) {
 
 export async function initializeWhisperWorker(progress_callback) {
 	// Load the pipeline and save it for future use.
-	const [tokenizer, processor, model] =
+	const [_tokenizer, _processor, model] =
 		await AutomaticSpeechRecognitionPipeline.getInstance((data) => {
 			// We also add a progress callback to the pipeline so that we can
 			// track model loading.
