@@ -21,7 +21,7 @@ export async function summarizeWebPage(language: string): Promise<string> {
 	const reader = new Readability(doc);
 	const article = reader.parse();
 
-	if (!article) {
+	if (!article?.content) {
 		throw new Error("Failed to extract article content");
 	}
 
