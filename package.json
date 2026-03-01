@@ -34,7 +34,7 @@
     "concurrently": "^9.1.2",
     "@biomejs/biome": "^2.4.4",
     "@tailwindcss/postcss": "^4.2.0",
-    "@types/audioworklet": "^0.0.95",
+    "@types/audioworklet": "^0.0.96",
     "@types/chrome": "^0.1.0",
     "@types/dom-chromium-ai": "^0.0.14",
     "@types/node": "^24.0.0",
