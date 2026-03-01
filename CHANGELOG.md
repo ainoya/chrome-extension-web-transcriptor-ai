@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.0.22](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.21...v0.0.22) - 2026-03-01
+- chore(deps): update dependency @types/audioworklet to ^0.0.96 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/559
+- chore(deps): update tailwindcss monorepo to v4.2.1 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/560
+- chore(deps): Bump the npm_and_yarn group across 1 directory with 4 updates by @dependabot[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/558
+- chore(deps): update dependency @types/node to v24.11.0 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/562
+- chore(deps): update node.js to v24.14.0 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/563
+
 ## [v0.0.21](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.20...v0.0.21) - 2026-02-23
 - feat: Add microphone mixing and transcription mode selection by @ainoya in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/556
 - fix: model status error on resume after stop, add build:watch script by @ainoya in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/555
