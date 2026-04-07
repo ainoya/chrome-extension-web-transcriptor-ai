@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "AI Transcriptior",
-  "version": "0.21",
+  "version": "0.22",
   "description": "Transcribe audio to text using AI",
   "permissions": [
     "activeTab",
