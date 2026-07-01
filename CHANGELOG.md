@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.0.23](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.22...v0.0.23) - 2026-07-01
+
+- chore(deps): update dependency @biomejs/biome to v2.4.16 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/571
+- chore(deps): update dependency @types/audioworklet to ^0.0.100 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/572
+- chore(deps): update dependency vite to v7.3.5 [security] by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/574
+- chore(deps): update dependency @types/dom-chromium-ai to ^0.0.17 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/575
+- chore(deps): update dependency concurrently to v9.2.3 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/576
+
 ## [v0.0.22](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.21...v0.0.22) - 2026-05-01
 - chore(deps): update dependency @types/audioworklet to ^0.0.96 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/559
 - chore(deps): update tailwindcss monorepo to v4.2.1 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/560
