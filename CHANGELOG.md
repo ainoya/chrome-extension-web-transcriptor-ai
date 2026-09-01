@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.0.24](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.23...v0.0.24) - 2026-09-01
+
+- chore(deps): Bump the npm_and_yarn group across 1 directory with 2 updates by @dependabot[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/582
+- chore(deps): update dependency postcss to v8.5.26 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/584
+- chore(deps): update dependency turndown to v7.2.4 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/585
+
 ## [v0.0.23](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.22...v0.0.23) - 2026-08-01
 
 - chore(deps): update dependency @biomejs/biome to v2.4.16 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/571
