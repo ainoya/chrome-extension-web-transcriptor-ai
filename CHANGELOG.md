@@ -1,6 +1,6 @@
 # Changelog
 
-## [v0.0.23](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.22...v0.0.23) - 2026-08-01
+## [v0.0.23](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.22...v0.0.23) - 2026-08-28
 
 - chore(deps): update dependency @biomejs/biome to v2.4.16 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/571
 - chore(deps): update dependency @types/audioworklet to ^0.0.100 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/572
@@ -11,6 +11,7 @@
 - chore(deps): update dependency postcss to v8.5.18 [security] by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/578
 - chore(deps): update dependency concurrently to v9.2.4 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/579
 - chore(deps): update dependency postcss to v8.5.25 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/580
+- chore(deps): Bump the npm_and_yarn group across 1 directory with 2 updates by @dependabot[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/564
 
 ## [v0.0.22](https://github.com/ainoya/chrome-extension-web-transcriptor-ai/compare/v0.0.21...v0.0.22) - 2026-05-01
 - chore(deps): update dependency @types/audioworklet to ^0.0.96 by @renovate[bot] in https://github.com/ainoya/chrome-extension-web-transcriptor-ai/pull/559
